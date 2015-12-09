@@ -5,7 +5,6 @@ class DatabaseSession implements \SessionHandlerInterface {
   private $dbConn;
   public function __construct(Database $dbConn){
     //session_set_save_handler();
-    //session_start();
     $this->dbConn = $dbConn;
   }
 
@@ -52,7 +51,7 @@ class DatabaseSession implements \SessionHandlerInterface {
               'table' => 'sessions',
               'conditions' => array(
                         array(
-                          'field' => 'id',
+                          'field' => 'session_id',
                           'operator' => '=',
                           'value' => $session_id,
                         ),

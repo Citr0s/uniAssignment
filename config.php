@@ -2,4 +2,4 @@
 	define('host', 'localhost');
 	define('username', 'homestead');
 	define('password', 'secret');
-	define('database', 'a1');
+	define('database', 'assignment');

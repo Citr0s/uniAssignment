@@ -33,7 +33,7 @@ class DatabaseSessionTest extends \PHPUnit_Framework_TestCase
 	}
 
 	public static function tearDownAfterClass(){
-		self::$db->query("DROP TABLE sessions");
+		self::$db->query("DROP TABLE testSessions");
 		self::$db = NULL;
 	}
 

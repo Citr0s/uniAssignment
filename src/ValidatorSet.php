@@ -7,9 +7,9 @@ class ValidatorSet extends Collection
 	public function getErrors(){
 		foreach($this->members as $key => $value){
 			if(!is_null($value->getError())){
-				$errors[$key] = $value->getError();
+				$this->errors[$key] = $value->getError();
 			}
 		}
-		return $errors;
+		return $this->errors;
 	}
 }
