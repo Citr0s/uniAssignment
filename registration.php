@@ -8,26 +8,37 @@
   use Assignment\URLValidator;
   use Assignment\DateValidator;
   use Assignment\Database;
+  use Assignment\Validator;
+  use Assignment\User;
+
+  $dbCon = new Database();
+  $session = new DatabaseSession($dbCon);
+  $user = new User();
 
   if($_POST){
+    $data = array(
+      'Username' => new NameValidator($_POST['username'], true),
+      'Password' => new NameValidator($_POST['password'], true),
+      'Email' => new EmailValidator($_POST['email'], true),
+      'URL' => new URLValidator($_POST['url']),
+      'DOB' => new DateValidator($_POST['dob'], true),
+
+    );
     $valSet = new ValidatorSet();
-    $valSet->addItem(new NameValidator($_POST['username'], true), 'Username');
-    $valSet->addItem(new NameValidator($_POST['password'], true), 'Password');
-    $valSet->addItem(new EmailValidator($_POST['email'], true), 'Email');
-    $valSet->addItem(new URLValidator($_POST['url']), 'URL');
-    $valSet->addItem(new DateValidator($_POST['dob'], true), 'DOB');
+
+    foreach($data as $key => $value){
+      $valSet->addItem($value, $key);
+    }
 
     if(empty($valSet->getErrors())){
       if(!$session->read(session_id())){
         $session->write(session_id(), $_POST['username']);
+        $user->save($data);
       }
     }else{
       $errors = $valSet->getErrors();
     }
   }
-
-  $dbCon = new Database();
-  $session = new DatabaseSession($dbCon);
 
   if($session->read(session_id())){
     $loggedOn = true;

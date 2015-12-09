@@ -4,6 +4,7 @@ namespace Assignment;
 class DateValidator extends Validator
 {
 	protected function validate($value){
+		$this->value = $value;
 		$date = strtotime($value);
 		$year = 365 * 86400;
 		$eighteenFromToday = time() - ($year * 18);

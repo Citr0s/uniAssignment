@@ -8,6 +8,7 @@
   <title>Secure</title>
 </head>
 <body>
-	Hello, <?php echo $session->read(session_id())[0]['data']; ?>!
+	<p>Hello, <?php echo $session->read(session_id())[0]['data']; ?>!</p>
+	<a href="registration.php">< Back</a>
 </body>
 </html>

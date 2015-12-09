@@ -25,8 +25,8 @@ abstract class Validator
 		return $this->errorMessage;
 	}
 
-	public function getSanitisedValue($value){
-		return $this->value;
+	public function getSanitisedValue(){
+		return htmlentities($this->value);
 	}
 	abstract protected function validate($value);
 }

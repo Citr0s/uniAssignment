@@ -6,8 +6,6 @@ session_start();
 use Assignment\DatabaseSession;
 use Assignment\Database;
 
-var_dump(session_id());
-
 $db = new mysqli(host, username, password);
 $db->query("CREATE DATABASE IF NOT EXISTS " . database);
 $db = new mysqli(host, username, password, database);
@@ -15,6 +13,15 @@ $db->query("CREATE TABLE IF NOT EXISTS sessions (
 									id int NOT NULL AUTO_INCREMENT,
 									session_id varchar(26),
 									data varchar(255),
+									PRIMARY KEY (id))"
+								);
+$db->query("CREATE TABLE IF NOT EXISTS users (
+									id int NOT NULL AUTO_INCREMENT,
+									username varchar(20),
+									password varchar(40),
+									email varchar(50),
+									url varchar(150),
+									dob varchar(20),
 									PRIMARY KEY (id))"
 								);
 
