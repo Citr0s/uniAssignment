@@ -9,13 +9,13 @@ use Assignment\Database;
 $db = new mysqli(host, username, password);
 $db->query("CREATE DATABASE IF NOT EXISTS " . database);
 $db = new mysqli(host, username, password, database);
-$db->query("CREATE TABLE IF NOT EXISTS sessions (
+$db->query("CREATE TABLE IF NOT EXISTS `sessions` (
 									id int NOT NULL AUTO_INCREMENT,
 									session_id varchar(26),
 									data varchar(255),
 									PRIMARY KEY (id))"
 								);
-$db->query("CREATE TABLE IF NOT EXISTS users (
+$db->query("CREATE TABLE IF NOT EXISTS `userdetails` (
 									id int NOT NULL AUTO_INCREMENT,
 									username varchar(20),
 									password varchar(40),
