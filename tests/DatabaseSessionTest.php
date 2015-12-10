@@ -14,7 +14,7 @@ class DatabaseSessionTest extends \PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass(){
         self::$db = new mysqli(host, username, password, database);
-        self::$db->query("CREATE TABLE sessions (
+        self::$db->query("CREATE TABLE testSessions (
     										id int NOT NULL AUTO_INCREMENT,
     										session_id varchar(13),
     										data varchar(255),
