@@ -26,7 +26,7 @@ class TestValidation extends \PHPUnit_Framework_TestCase {
 	public function testNameFail()
 	{
 		$name = new NameValidator('toomanycharacters---------');
-		$this->assertEquals(true, $name->hasError());
+		$this->assertTrue($name->hasError());
 	}
 
 	public function testNameSuccess()
@@ -37,7 +37,43 @@ class TestValidation extends \PHPUnit_Framework_TestCase {
 
 	public function testNameRequired()
 	{
-		$age = new NameValidator('', true);
+		$email = new NameValidator('', true);
+		$this->assertEquals('This is a required field', $email->getError());
+	}
+
+	public function testUsernameFail()
+	{
+		$name = new UsernameValidator('toomanycharacters---------');
+		$this->assertTrue($name->hasError());
+	}
+
+	public function testUsernameSuccess()
+	{
+		$name = new UsernameValidator('exactlyrightamount--');
+		$this->assertFalse($name->hasError());
+	}
+
+	public function testUsernameRequired()
+	{
+		$email = new UsernameValidator('', true);
+		$this->assertEquals('This is a required field', $email->getError());
+	}
+
+	public function testPasswordFail()
+	{
+		$name = new PasswordValidator('toomanycharacters---------');
+		$this->assertTrue($name->hasError());
+	}
+
+	public function testPasswordSuccess()
+	{
+		$name = new PasswordValidator('exactlyrightamount--');
+		$this->assertFalse($name->hasError());
+	}
+
+	public function testPasswordRequired()
+	{
+		$age = new PasswordValidator('', true);
 		$this->assertEquals('This is a required field', $age->getError());
 	}
 
@@ -71,6 +107,24 @@ class TestValidation extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals('This is a required field', $age->getError());
 	}
 
+	public function testDateFailTooHigh()
+	{
+		$age = new DateValidator('12-12-2100');
+		$this->assertTrue($age->hasError());
+	}
+
+	public function testDateSuccessHighBoundary()
+	{
+		$age = new DateValidator('1-1-1997');
+		$this->assertFalse($age->hasError());
+	}
+
+	public function testDateRequired()
+	{
+		$age = new DateValidator('', true);
+		$this->assertEquals('This is a required field', $age->getError());
+	}
+	
 	public function testSet()
 	{
 		$valSet = new ValidatorSet();
