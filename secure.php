@@ -8,7 +8,7 @@
   <title>Secure</title>
 </head>
 <body>
-	<p>Hello, <?php echo $session->read(session_id())[0]['data']; ?>!</p>
+	<p>Hello, <?php echo $_SESSION['user']['username']->getSanitisedValue(); ?>!</p>
 	<a href="registration.php">< Back</a>
 </body>
 </html>

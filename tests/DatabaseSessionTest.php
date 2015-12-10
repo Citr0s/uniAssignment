@@ -14,17 +14,18 @@ class DatabaseSessionTest extends \PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass(){
         self::$db = new mysqli(host, username, password, database);
-        self::$db->query("CREATE TABLE sessions (
+        self::$db->query("CREATE TABLE IF NOT EXISTS testSessions (
     										id int NOT NULL AUTO_INCREMENT,
     										session_id varchar(13),
     										data varchar(255),
+    										modified varchar(255),
     										PRIMARY KEY (id))"
     									);
     }
 
 	public function setUp(){
 		$this->dbCon = new Database();
-		$this->session = new DatabaseSession($this->dbCon);
+		$this->session = new DatabaseSession($this->dbCon, 'testSessions');
 	}
 
 	public function tearDown(){
@@ -33,12 +34,12 @@ class DatabaseSessionTest extends \PHPUnit_Framework_TestCase
 	}
 
 	public static function tearDownAfterClass(){
-		self::$db->query("DROP TABLE sessions");
+		self::$db->query("DROP TABLE testSessions");
 		self::$db = NULL;
 	}
 
 	public function test_writing_session_data(){
-		$this->assertTrue($this->session->write(1, 'test'));
+		$this->assertTrue($this->session->write(1, 'test', '1449760698'));
 	}
 
 	public function test_reading_session_data(){
@@ -47,6 +48,7 @@ class DatabaseSessionTest extends \PHPUnit_Framework_TestCase
 					    	'id' => '1',
 					    	'session_id' => '1',
 					    	'data' => 'test',
+					    	'modified' => '1449760698',
 					    ),
 					);
 

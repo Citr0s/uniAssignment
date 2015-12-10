@@ -1,49 +1,28 @@
 <?php
-  require_once 'bootstrap.php';
+require_once 'bootstrap.php';
 
-  use Assignment\DatabaseSession;
-  use Assignment\ValidatorSet;
-  use Assignment\UsernameValidator;
-  use Assignment\PasswordValidator;
-  use Assignment\EmailValidator;
-  use Assignment\URLValidator;
-  use Assignment\DateValidator;
-  use Assignment\Database;
-  use Assignment\Validator;
-  use Assignment\User;
+use Assignment\UsernameValidator;
+use Assignment\PasswordValidator;
+use Assignment\EmailValidator;
+use Assignment\URLValidator;
+use Assignment\DateValidator;
+use Assignment\Registration;
+use Assignment\User;
 
-  $dbCon = new Database();
-  $session = new DatabaseSession($dbCon);
-  $user = new User();
+$user = new User();
 
-  if($_POST){
-    $data = array(
-      'Username' => new UsernameValidator($_POST['username'], true),
-      'Password' => new PasswordValidator($_POST['password'], true),
-      'Email' => new EmailValidator($_POST['email'], true),
-      'URL' => new URLValidator($_POST['url']),
-      'DOB' => new DateValidator($_POST['dob'], true),
+if($_POST){
+  $data = array(
+    'username' => new UsernameValidator($_POST['username'], true),
+    'password' => new PasswordValidator($_POST['password'], true),
+    'email' => new EmailValidator($_POST['email'], true),
+    'URL' => new URLValidator($_POST['url']),
+    'DOB' => new DateValidator($_POST['dob'], true),
+  );
 
-    );
-    $valSet = new ValidatorSet();
-
-    foreach($data as $key => $value){
-      $valSet->addItem($value, $key);
-    }
-
-    if(empty($valSet->getErrors())){
-      if(!$session->read(session_id())){
-        $session->write(session_id(), $_POST['username']);
-        $user->save($data);
-      }
-    }else{
-      $errors = $valSet->getErrors();
-    }
-  }
-
-  if($session->read(session_id())){
-    $loggedOn = true;
-  }
+  $reg = new Registration($data);
+  $errors = empty($reg->getErrors()) ?: $reg->getErrors();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -64,7 +43,7 @@
 <h1>Assignment Task 2 - Registration Form</h1>
 <section>
   <?php
-    if(isset($loggedOn)){
+    if($user->isLoggedIn()){
   ?>
     <fieldset class="menu">
       <a href="secure.php">Secure</a>

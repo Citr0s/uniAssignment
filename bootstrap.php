@@ -2,12 +2,9 @@
 require 'vendor/autoload.php';
 require 'config.php';
 
-use Assignment\DatabaseSession;
-use Assignment\Database;
-
-$handler = new DatabaseSession();
-session_set_save_handler($handler, true);
 session_start();
+
+use Assignment\User;
 
 $db = new mysqli(host, username, password);
 $db->query("CREATE DATABASE IF NOT EXISTS " . database);
@@ -16,6 +13,7 @@ $db->query("CREATE TABLE IF NOT EXISTS `sessions` (
 									id int NOT NULL AUTO_INCREMENT,
 									session_id varchar(26),
 									data varchar(255),
+									modified varchar(255),
 									PRIMARY KEY (id))"
 								);
 $db->query("CREATE TABLE IF NOT EXISTS `userdetails` (
@@ -40,13 +38,11 @@ $pages = array(
 );
 
 $currentPage = basename($_SERVER['REQUEST_URI'], '.php');
-
-$dbCon = new Database();
-$session = new DatabaseSession($dbCon);
+$user = new User();
 
 foreach($pages as $page){
 	if($page['pageName'] === $currentPage){
-		if($page['loginRequired'] && !$session->read(session_id())){
+		if($page['loginRequired'] && !$user->isLoggedIn()){
 			die('Unauthorised');
 		}
 	}

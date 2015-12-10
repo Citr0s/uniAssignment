@@ -3,9 +3,20 @@ namespace Assignment;
 
 class DatabaseSession implements \SessionHandlerInterface {
   private $dbConn;
+  private $table;
   
-  public function __construct(Database $dbConn){
+  public function __construct(Database $dbConn, $table = 'sessions'){
     $this->dbConn = $dbConn;
+    $this->table = $table;
+    
+    session_set_save_handler(
+      array($this, 'open'),
+      array($this, 'close'),
+      array($this, 'read'),
+      array($this, 'write'),
+      array($this, 'destroy'),
+      array($this, 'gc')
+    );
   }
 
   public function open($save_path, $name){
@@ -18,7 +29,7 @@ class DatabaseSession implements \SessionHandlerInterface {
 
   public function read($session_id){
     $parameters = array(
-              'table' => 'sessions',
+              'table' => $this->table,
               'fields' => '*',
               'conditions' => array(
                         array(
@@ -32,13 +43,15 @@ class DatabaseSession implements \SessionHandlerInterface {
     return $this->dbConn->select($parameters);
   }
 
-  public function write($session_id, $session_data){
+  public function write($session_id, $session_data, $modified = null){
+    $modified = !is_null($modified) ? $modified : time(); 
     $parameters = array(
-              'table' => 'sessions',
+              'table' => $this->table,
               'fields' => array(
                               array(
                                 'session_id' => $session_id,
                                 'data' => $session_data,
+                                'modified' => $modified,
                               ),
                             ),
           );
@@ -48,7 +61,7 @@ class DatabaseSession implements \SessionHandlerInterface {
 
   public function destroy($session_id){
     $parameters = array(
-              'table' => 'sessions',
+              'table' => $this->table,
               'conditions' => array(
                         array(
                           'field' => 'session_id',
@@ -62,14 +75,17 @@ class DatabaseSession implements \SessionHandlerInterface {
   }
 
   public function gc($maxlifetime){
-    //enter your garbage collection functionality here
-    //Garbage collector. This function is called periodically
-    //according to a preset probability.
-    //Depending upon website traffic this is
-    //usually set to 1/1000. It removes all sessions
-    //that haven’t been modified for the preset
-    //$maxlifetime timestamp
-    //(a session should be deleted if its timestamp is
-    //less than time() - $maxlifetime).
+    $expectedTime = time() - $maxlifetime;
+    $parameters = array(
+              'table' => $this->table,
+              'conditions' => array(
+                        array(
+                          'field' => 'modified',
+                          'operator' => '<',
+                          'value' => $expectedTime,
+                        ),
+                    ),
+          );
+    return $this->dbConn->delete($parameters);
   }
 }

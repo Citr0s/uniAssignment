@@ -17,7 +17,7 @@ class User
 		}
 
 		$parameters = array(
-		    			'table' => 'users',
+		    			'table' => 'userdetails',
 		    			'fields' => array(
 		    							array(
 			    							'username' => $values[0],
@@ -30,5 +30,13 @@ class User
 					);
 
 		return $this->dbCon->insert($parameters);
+	}
+
+	public function login($data){
+		$_SESSION['user'] = $data;
+	}
+
+	public function isLoggedIn(){
+		return isset($_SESSION['user']);
 	}
 }

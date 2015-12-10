@@ -8,6 +8,8 @@
   $session = new DatabaseSession($dbCon);
 
   $deleted = $session->destroy(session_id());
+
+  session_destroy();
 ?>
 <!DOCTYPE html>
 <html lang="en">
