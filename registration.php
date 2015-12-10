@@ -3,7 +3,7 @@
 
   use Assignment\DatabaseSession;
   use Assignment\ValidatorSet;
-  use Assignment\NameValidator;
+  use Assignment\UsernameValidator;
   use Assignment\EmailValidator;
   use Assignment\URLValidator;
   use Assignment\DateValidator;
@@ -17,8 +17,8 @@
 
   if($_POST){
     $data = array(
-      'Username' => new NameValidator($_POST['username'], true),
-      'Password' => new NameValidator($_POST['password'], true),
+      'Username' => new UsernameValidator($_POST['username'], true),
+      'Password' => new UsernameValidator($_POST['password'], true),
       'Email' => new EmailValidator($_POST['email'], true),
       'URL' => new URLValidator($_POST['url']),
       'DOB' => new DateValidator($_POST['dob'], true),

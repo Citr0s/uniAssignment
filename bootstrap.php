@@ -1,10 +1,13 @@
 <?php
 require 'vendor/autoload.php';
 require 'config.php';
-session_start();
 
 use Assignment\DatabaseSession;
 use Assignment\Database;
+
+$handler = new DatabaseSession();
+session_set_save_handler($handler, true);
+session_start();
 
 $db = new mysqli(host, username, password);
 $db->query("CREATE DATABASE IF NOT EXISTS " . database);

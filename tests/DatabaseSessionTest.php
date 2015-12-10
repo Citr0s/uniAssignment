@@ -14,7 +14,7 @@ class DatabaseSessionTest extends \PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass(){
         self::$db = new mysqli(host, username, password, database);
-        self::$db->query("CREATE TABLE testSessions (
+        self::$db->query("CREATE TABLE sessions (
     										id int NOT NULL AUTO_INCREMENT,
     										session_id varchar(13),
     										data varchar(255),
@@ -33,7 +33,7 @@ class DatabaseSessionTest extends \PHPUnit_Framework_TestCase
 	}
 
 	public static function tearDownAfterClass(){
-		self::$db->query("DROP TABLE testSessions");
+		self::$db->query("DROP TABLE sessions");
 		self::$db = NULL;
 	}
 

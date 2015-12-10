@@ -5,7 +5,7 @@ class ValidatorSet extends Collection
 {
 	private $errors = array();
 
-	public function addItem(Validator $item, $key = null){
+	public function addItem($item, $key = null){
 		parent::addItem($item, $key);
 	}
 

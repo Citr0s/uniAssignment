@@ -3,8 +3,8 @@ namespace Assignment;
 
 class DatabaseSession implements \SessionHandlerInterface {
   private $dbConn;
+  
   public function __construct(Database $dbConn){
-    //session_set_save_handler();
     $this->dbConn = $dbConn;
   }
 
