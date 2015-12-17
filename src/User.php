@@ -36,6 +36,12 @@ class User
 		$_SESSION['user'] = $data;
 	}
 
+	public function logout(){
+		session_destroy();
+		$session = new DatabaseSession($this->dbCon);
+		return $session->destroy(session_id());
+	}
+
 	public function isLoggedIn(){
 		return isset($_SESSION['user']);
 	}

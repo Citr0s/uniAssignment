@@ -21,7 +21,13 @@ if($_POST){
   );
 
   $reg = new Registration($data);
-  $errors = empty($reg->getErrors()) ?: $reg->getErrors();
+
+  if(empty($reg->getErrors())){
+    $user->login($data);
+    $errors = array();
+  }else{
+    $errors = $reg->getErrors();
+  }
 }
 ?>
 <!DOCTYPE html>

@@ -1,15 +1,10 @@
 <?php
   require_once 'bootstrap.php';
 
-  use Assignment\DatabaseSession;
-  use Assignment\Database;
+  use Assignment\User;
 
-  $dbCon = new Database();
-  $session = new DatabaseSession($dbCon);
-
-  $deleted = $session->destroy(session_id());
-
-  session_destroy();
+  $user = new User();
+  $deleted = $user->logout();
 ?>
 <!DOCTYPE html>
 <html lang="en">
