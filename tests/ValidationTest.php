@@ -79,25 +79,25 @@ class TestValidation extends \PHPUnit_Framework_TestCase {
 
 	public function testAgeFailTooLow()
 	{
-		$age = new AgeValidator('20');
+		$age = new AgeValidator('20', false, 20, 45);
 		$this->assertTrue($age->hasError());
 	}
 
 	public function testAgeFailTooHigh()
 	{
-		$age = new AgeValidator('45');
+		$age = new AgeValidator('45', false, 20, 45);
 		$this->assertTrue($age->hasError());
 	}
 
 	public function testAgeSuccessLowBoundary()
 	{
-		$age = new AgeValidator('21');
+		$age = new AgeValidator('21', false, 20, 45);
 		$this->assertFalse($age->hasError());
 	}
 
 	public function testAgeSuccessHighBoundary()
 	{
-		$age = new AgeValidator('44');
+		$age = new AgeValidator('44', false, 20, 45);
 		$this->assertFalse($age->hasError());
 	}
 

@@ -17,7 +17,7 @@ if($_POST){
     'password' => new PasswordValidator($_POST['password'], true, 0, 20),
     'email' => new EmailValidator($_POST['email'], true),
     'URL' => new URLValidator($_POST['url']),
-    'DOB' => new DateValidator($_POST['dob'], true, 20, 45),
+    'DOB' => new DateValidator($_POST['dob'], true, 18),
   );
 
   $reg = new Registration($data);

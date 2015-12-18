@@ -7,9 +7,9 @@ class DateValidator extends Validator
 		$this->value = $value;
 		$date = strtotime($this->value);
 		$year = 365 * 86400;
-		$eighteenFromToday = time() - ($year * 18);
+		$minAge = time() - ($year * $this->minLength);
 
-		if($date > time() || $date > $eighteenFromToday){
+		if($date > time() || $date > $minAge){
 			$this->errorMessage = 'Age not allowed';
 		}
 		return true;
