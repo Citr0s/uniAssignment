@@ -13,11 +13,11 @@ $user = new User();
 
 if($_POST){
   $data = array(
-    'username' => new UsernameValidator($_POST['username'], true),
-    'password' => new PasswordValidator($_POST['password'], true),
+    'username' => new UsernameValidator($_POST['username'], true, 0, 20),
+    'password' => new PasswordValidator($_POST['password'], true, 0, 20),
     'email' => new EmailValidator($_POST['email'], true),
     'URL' => new URLValidator($_POST['url']),
-    'DOB' => new DateValidator($_POST['dob'], true),
+    'DOB' => new DateValidator($_POST['dob'], true, 20, 45),
   );
 
   $reg = new Registration($data);

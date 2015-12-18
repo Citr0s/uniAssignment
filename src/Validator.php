@@ -5,10 +5,14 @@ abstract class Validator
 {
 	protected $errorMessage;
 	protected $value;
+	protected $minLength;
+	protected $maxLength;
 	protected $required;
 
-	public function __construct($value, $required = false){
+	public function __construct($value, $min = 5, $max = 25, $required = false){
 		if(!empty($value)){
+			$this->minLength = $min;
+			$this->maxLength = $max;
 			$this->validate($value);
 		}else{
 			if($required){
