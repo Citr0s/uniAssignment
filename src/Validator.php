@@ -9,7 +9,7 @@ abstract class Validator
 	protected $maxLength;
 	protected $required;
 
-	public function __construct($value, $min = 5, $max = 25, $required = false){
+	public function __construct($value, $required = false, $min = 5, $max = 25){
 		if(!empty($value)){
 			$this->minLength = $min;
 			$this->maxLength = $max;
